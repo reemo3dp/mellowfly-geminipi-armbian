@@ -24,18 +24,18 @@ $ cd armbian/
 # Apply patches from this repository
 $ git am ../patches/*.patch
 # Compile ubuntu jammy with default kernel config
-$ ./compile.sh BOARD=mellowfly-geminipi BRANCH=legacy RELEASE=jammy BUILD_MINIMAL=no BUILD_DESKTOP=no KERNEL_CONFIGURE=no
+$ ./compile.sh BOARD=mellowflygeminipi BRANCH=legacy RELEASE=jammy BUILD_MINIMAL=no BUILD_DESKTOP=no KERNEL_CONFIGURE=no
 ```
 
 ## Progress
 
-M2WE and SPI have not been tested at all.
+M2WE and SPI have not been tested at all. In order to make the USB-OTG port work on `current` and `edge`, comment out `g_serial` in `/etc/modules` and potentially change `dr_mode = "host";` in the `dts`.
 
 | Kernel    | OS      | Status                     |
 | --------- | ------- | -------------------------- |
 | `legacy`  | `jammy` | Works                      |
-| `current` | `jammy` | USB-OTG port does not work |
-| `edge`    | `jammy` | USB-OTG port does not work |
+| `current` | `jammy` | ~USB-OTG port does not work~ |
+| `edge`    | `jammy` | ~USB-OTG port does not work~ |
 
 ## References
 
