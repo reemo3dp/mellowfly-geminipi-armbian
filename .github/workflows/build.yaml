@@ -1,0 +1,38 @@
+name: Build
+on: workflow_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get more space
+        uses: easimon/maximize-build-space@master
+        with:
+          root-reserve-mb: 30720
+          swap-size-mb: 1024
+          remove-dotnet: "true"
+          remove-android: "true"
+      - name: Checkout this repository
+        uses: actions/checkout@v3
+        with:
+          path: mellowfly-geminipi-armbian
+      - name: Checkout armbian Repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+          repository: armbian/build
+          ref: main
+          path: armbian
+      - name: Apply patches
+        run: |
+          cd armbian/
+          git apply ../mellowfly-geminipi-armbian/patches/*.patch
+      - name: Build Armbian
+        run: |
+          cd armbian/
+          ./compile.sh BOARD=mellowflygeminipi BRANCH=edge RELEASE=jammy BUILD_MINIMAL=no BUILD_DESKTOP=no KERNEL_CONFIGURE=no
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: Armbian
+          path: build/output/images
