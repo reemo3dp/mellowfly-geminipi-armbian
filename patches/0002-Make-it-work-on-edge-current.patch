@@ -1,7 +1,7 @@
-From 10ac7a4b79dc858a970d0348197c011a79b48a70 Mon Sep 17 00:00:00 2001
+From aab730ffd3d04351b6a92bcc888f11cd4d85c1c5 Mon Sep 17 00:00:00 2001
 From: User <user@example.com>
 Date: Wed, 13 Dec 2023 20:09:27 +0100
-Subject: [PATCH 2/2] Make it work on edge/current
+Subject: [PATCH 2/3] Make it work on edge/current
 
 ---
  config/boards/mellowflygeminipi.conf          |   2 +-

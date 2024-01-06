@@ -1,0 +1,149 @@
+From 31ccdebf381631e19be840130df53ec96f36ff0f Mon Sep 17 00:00:00 2001
+From: User <user@example.com>
+Date: Sat, 6 Jan 2024 21:03:06 +0100
+Subject: [PATCH 3/3] Enable build on 6.7
+
+---
+ .../0001-Add-mellowfly-geminipi.patch}        |  0
+ ...-Add-mellowfly-geminipi-m2we-support.patch | 58 +++++++++++++++++++
+ ...dd-m2we-config-to-mellowfly-geminipi.patch | 58 +++++++++++++++++++
+ 3 files changed, 116 insertions(+)
+ rename userpatches/kernel/archive/{sunxi-6.6/0002-Enable-otg-port-on-edge-current.patch => sunxi-6.7/0001-Add-mellowfly-geminipi.patch} (100%)
+ create mode 100644 userpatches/kernel/archive/sunxi-6.7/0002-Add-mellowfly-geminipi-m2we-support.patch
+ create mode 100644 userpatches/u-boot/u-boot-sunxi/0002-Add-m2we-config-to-mellowfly-geminipi.patch
+
+diff --git a/userpatches/kernel/archive/sunxi-6.6/0002-Enable-otg-port-on-edge-current.patch b/userpatches/kernel/archive/sunxi-6.7/0001-Add-mellowfly-geminipi.patch
+similarity index 100%
+rename from userpatches/kernel/archive/sunxi-6.6/0002-Enable-otg-port-on-edge-current.patch
+rename to userpatches/kernel/archive/sunxi-6.7/0001-Add-mellowfly-geminipi.patch
+diff --git a/userpatches/kernel/archive/sunxi-6.7/0002-Add-mellowfly-geminipi-m2we-support.patch b/userpatches/kernel/archive/sunxi-6.7/0002-Add-mellowfly-geminipi-m2we-support.patch
+new file mode 100644
+index 000000000..7512fb7bc
+--- /dev/null
++++ b/userpatches/kernel/archive/sunxi-6.7/0002-Add-mellowfly-geminipi-m2we-support.patch
+@@ -0,0 +1,58 @@
++From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
++From: John Doe <john.doe@somewhere.on.planet>
++Date: Sat, 6 Jan 2024 20:04:27 +0000
++Subject: Patching kernel sunxi64 files
++ arch/arm64/boot/dts/allwinner/sun50i-h5-mellowfly-geminipi.dts
++
++Signed-off-by: John Doe <john.doe@somewhere.on.planet>
++---
++ arch/arm64/boot/dts/allwinner/sun50i-h5-mellowfly-geminipi.dts | 18 ++++++++++
++ 1 file changed, 18 insertions(+)
++
++diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-mellowfly-geminipi.dts b/arch/arm64/boot/dts/allwinner/sun50i-h5-mellowfly-geminipi.dts
++index 0fd9645a4318..d8cae760fc07 100644
++--- a/arch/arm64/boot/dts/allwinner/sun50i-h5-mellowfly-geminipi.dts
+++++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-mellowfly-geminipi.dts
++@@ -135,10 +135,17 @@ reg_vdd_cpux: vdd-cpux {
++ 		regulator-boot-on;
++ 		vin-supply = <&reg_vcc5v0>;
++ 		gpio = <&r_pio 0 8 GPIO_ACTIVE_HIGH>; /* PL8 */
++ 		enable-active-high;
++ 	};
+++
+++	wifi_pwrseq: wifi_pwrseq {
+++		compatible = "mmc-pwrseq-simple";
+++		post-power-on-delay-ms = <0xc8>;
+++		reset-gpios = <&r_pio 0x00 0x07 0x01>;
+++	};
+++
++ };
++ 
++ &ehci0 {
++ 	status = "okay";
++ };
++@@ -160,10 +167,21 @@ &mmc0 {
++     // SDC0-DET - PF6
++ 	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>; 
++ 	status = "okay";
++ };
++ 
+++&mmc1 {
+++	status = "okay";
+++	non-removable;
+++	vmmc-supply = <&reg_vcc3v3>;
+++	vqmmc-supply = <&reg_vcc3v3>;
+++	mmc-pwrseq = <&wifi_pwrseq>;
+++	bus-width = <0x04>;
+++	wifi@1 {
+++		reg = <0x01>;
+++	};
+++};
++ 
++ &mmc2 {
++ 	pinctrl-names = "default";
++ 	pinctrl-0 = <&mmc2_8bit_pins>;
++ 	vmmc-supply = <&reg_vcc_io>;
++-- 
++Created with Armbian build tools https://github.com/armbian/build
++
+diff --git a/userpatches/u-boot/u-boot-sunxi/0002-Add-m2we-config-to-mellowfly-geminipi.patch b/userpatches/u-boot/u-boot-sunxi/0002-Add-m2we-config-to-mellowfly-geminipi.patch
+new file mode 100644
+index 000000000..e625d8f95
+--- /dev/null
++++ b/userpatches/u-boot/u-boot-sunxi/0002-Add-m2we-config-to-mellowfly-geminipi.patch
+@@ -0,0 +1,58 @@
++From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
++From: John Doe <john.doe@somewhere.on.planet>
++Date: Sat, 6 Jan 2024 19:58:23 +0000
++Subject: Patching u-boot sunxi64 files
++ arch/arm/dts/sun50i-h5-mellowfly-geminipi.dts
++
++Signed-off-by: John Doe <john.doe@somewhere.on.planet>
++---
++ arch/arm/dts/sun50i-h5-mellowfly-geminipi.dts | 18 ++++++++++
++ 1 file changed, 18 insertions(+)
++
++diff --git a/arch/arm/dts/sun50i-h5-mellowfly-geminipi.dts b/arch/arm/dts/sun50i-h5-mellowfly-geminipi.dts
++index 0fd9645a43..d8cae760fc 100644
++--- a/arch/arm/dts/sun50i-h5-mellowfly-geminipi.dts
+++++ b/arch/arm/dts/sun50i-h5-mellowfly-geminipi.dts
++@@ -135,10 +135,17 @@
++ 		regulator-boot-on;
++ 		vin-supply = <&reg_vcc5v0>;
++ 		gpio = <&r_pio 0 8 GPIO_ACTIVE_HIGH>; /* PL8 */
++ 		enable-active-high;
++ 	};
+++
+++	wifi_pwrseq: wifi_pwrseq {
+++		compatible = "mmc-pwrseq-simple";
+++		post-power-on-delay-ms = <0xc8>;
+++		reset-gpios = <&r_pio 0x00 0x07 0x01>;
+++	};
+++
++ };
++ 
++ &ehci0 {
++ 	status = "okay";
++ };
++@@ -160,10 +167,21 @@
++     // SDC0-DET - PF6
++ 	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>; 
++ 	status = "okay";
++ };
++ 
+++&mmc1 {
+++	status = "okay";
+++	non-removable;
+++	vmmc-supply = <&reg_vcc3v3>;
+++	vqmmc-supply = <&reg_vcc3v3>;
+++	mmc-pwrseq = <&wifi_pwrseq>;
+++	bus-width = <0x04>;
+++	wifi@1 {
+++		reg = <0x01>;
+++	};
+++};
++ 
++ &mmc2 {
++ 	pinctrl-names = "default";
++ 	pinctrl-0 = <&mmc2_8bit_pins>;
++ 	vmmc-supply = <&reg_vcc_io>;
++-- 
++Created with Armbian build tools https://github.com/armbian/build
++
+-- 
+2.43.0
+
