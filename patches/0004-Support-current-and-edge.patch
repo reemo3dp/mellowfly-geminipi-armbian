@@ -1,0 +1,99 @@
+From b5249f9756d0dd46f6863722f769248a0669c5e9 Mon Sep 17 00:00:00 2001
+From: User <user@example.com>
+Date: Sun, 7 Jan 2024 00:27:11 +0100
+Subject: [PATCH 4/4] Support current and edge
+
+---
+ .../0001-Add-mellowfly-geminipi.patch}        | 33 +++++++++++++++----
+ 1 file changed, 26 insertions(+), 7 deletions(-)
+ rename userpatches/kernel/archive/{sunxi-5.15/0001-Add-Mellow-Fly-Gemini-Pi.patch => sunxi-6.6/0001-Add-mellowfly-geminipi.patch} (92%)
+
+diff --git a/userpatches/kernel/archive/sunxi-5.15/0001-Add-Mellow-Fly-Gemini-Pi.patch b/userpatches/kernel/archive/sunxi-6.6/0001-Add-mellowfly-geminipi.patch
+similarity index 92%
+rename from userpatches/kernel/archive/sunxi-5.15/0001-Add-Mellow-Fly-Gemini-Pi.patch
+rename to userpatches/kernel/archive/sunxi-6.6/0001-Add-mellowfly-geminipi.patch
+index 2030cd336..82bcc7ffc 100644
+--- a/userpatches/kernel/archive/sunxi-5.15/0001-Add-Mellow-Fly-Gemini-Pi.patch
++++ b/userpatches/kernel/archive/sunxi-6.6/0001-Add-mellowfly-geminipi.patch
+@@ -1,20 +1,20 @@
+ From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+ From: John Doe <john.doe@somewhere.on.planet>
+-Date: Thu, 23 Nov 2023 13:29:52 +0000
++Date: Sat, 6 Jan 2024 23:24:30 +0000
+ Subject: Patching kernel sunxi64 files arch/arm64/boot/dts/allwinner/Makefile
+  arch/arm64/boot/dts/allwinner/sun50i-h5-mellowfly-geminipi.dts
+ 
+ Signed-off-by: John Doe <john.doe@somewhere.on.planet>
+ ---
+  arch/arm64/boot/dts/allwinner/Makefile                         |   1 +
+- arch/arm64/boot/dts/allwinner/sun50i-h5-mellowfly-geminipi.dts | 271 ++++++++++
+- 2 files changed, 272 insertions(+)
++ arch/arm64/boot/dts/allwinner/sun50i-h5-mellowfly-geminipi.dts | 290 ++++++++++
++ 2 files changed, 291 insertions(+)
+ 
+ diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
+-index 5492570eff8e..6aab2a33ee73 100644
++index 83ab07b7f18a..de3c7d311e93 100644
+ --- a/arch/arm64/boot/dts/allwinner/Makefile
+ +++ b/arch/arm64/boot/dts/allwinner/Makefile
+-@@ -30,10 +30,11 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h5-bananapi-m2-plus.dtb
++@@ -27,10 +27,11 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h5-bananapi-m2-plus.dtb
+  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h5-bananapi-m2-plus-v1.2.dtb
+  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h5-emlid-neutis-n5-devboard.dtb
+  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h5-libretech-all-h3-cc.dtb
+@@ -28,9 +28,10 @@ index 5492570eff8e..6aab2a33ee73 100644
+  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h5-nanopi-r1s-h5.dtb
+ diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-mellowfly-geminipi.dts b/arch/arm64/boot/dts/allwinner/sun50i-h5-mellowfly-geminipi.dts
+ new file mode 100644
++index 000000000000..98450667d3e1
+ --- /dev/null
+ +++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-mellowfly-geminipi.dts
+-@@ -0,0 +1,272 @@
++@@ -0,0 +1,290 @@
+ +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+ +// Copyright (C) 2016 ARM Ltd.
+ +// Copyright (C) 2018 Hauke Mehrtens <hauke@hauke-m.de>
+@@ -170,6 +171,13 @@ new file mode 100644
+ +		gpio = <&r_pio 0 8 GPIO_ACTIVE_HIGH>; /* PL8 */
+ +		enable-active-high;
+ +	};
+++
+++	wifi_pwrseq: wifi_pwrseq {
+++		compatible = "mmc-pwrseq-simple";
+++		post-power-on-delay-ms = <0xc8>;
+++		reset-gpios = <&r_pio 0x00 0x07 0x01>;
+++	};
+++
+ +};
+ +
+ +&ehci0 {
+@@ -195,6 +203,17 @@ new file mode 100644
+ +	status = "okay";
+ +};
+ +
+++&mmc1 {
+++	status = "okay";
+++	non-removable;
+++	vmmc-supply = <&reg_vcc3v3>;
+++	vqmmc-supply = <&reg_vcc3v3>;
+++	mmc-pwrseq = <&wifi_pwrseq>;
+++	bus-width = <0x04>;
+++	wifi@1 {
+++		reg = <0x01>;
+++	};
+++};
+ +
+ +&mmc2 {
+ +	pinctrl-names = "default";
+@@ -289,7 +308,7 @@ new file mode 100644
+ +
+ +&usb_otg {
+ +    // This does not make sense, but the OTG port never works on current/modern but only on legacy and this is in the reference patch
+-+	dr_mode = "otg";
+++	dr_mode = "host";
+ +	status = "okay";
+ +};
+ +
+-- 
+2.43.0
+

@@ -1,7 +1,7 @@
 From 31ccdebf381631e19be840130df53ec96f36ff0f Mon Sep 17 00:00:00 2001
 From: User <user@example.com>
 Date: Sat, 6 Jan 2024 21:03:06 +0100
-Subject: [PATCH 3/3] Enable build on 6.7
+Subject: [PATCH 3/4] Enable build on 6.7
 
 ---
  .../0001-Add-mellowfly-geminipi.patch}        |  0
