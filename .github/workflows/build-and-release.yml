@@ -1,0 +1,158 @@
+# Taken from https://github.com/mainsail-crew/armbian-builds/blob/d39a0ebc2d53446c32d1d5f936df2528ebd66de1/.github/workflows/BuildTrain.yml
+name: Build and release
+on:
+  workflow_dispatch:
+  # on every monday at 3:30
+  schedule:
+    - cron: "30 3 * * 1"
+
+jobs:
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    outputs:
+      id: ${{ steps.release.outputs.id }}
+      tag_name: ${{ steps.time.outputs.time }}
+    steps:
+      - name: Checkout armbian Repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+          repository: armbian/build
+          ref: main
+          path: armbian
+
+      - name: Get armbian version
+        id: armbian-version
+        run: |
+          VERSION=$(cat ./armbian/VERSION)
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+
+      - name: Get time
+        id: time
+        uses: nanzm/get-time-action@v1.1
+        with:
+          format: "YYYYMMDD-HHmm"
+
+      - name: Create empty release
+        id: release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: ${{ steps.armbian-version.outputs.version }}-${{ steps.time.outputs.time }}
+          tag_name: ${{ steps.time.outputs.time }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          draft: true
+
+  build-armbian:
+    name: Armbian
+    needs: [release]
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        branch: [current, edge]
+    steps:
+      - name: Get more space
+        uses: easimon/maximize-build-space@master
+        with:
+          root-reserve-mb: 30720
+          swap-size-mb: 1024
+          remove-dotnet: "true"
+          remove-android: "true"
+      - name: Checkout this repository
+        uses: actions/checkout@v3
+        with:
+          path: mellowfly-geminipi-armbian
+      - name: Checkout armbian Repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+          repository: armbian/build
+          ref: main
+          path: armbian
+
+      - name: Apply patches
+        run: |
+          cd armbian/
+          git apply ../mellowfly-geminipi-armbian/patches/*.patch
+
+      - name: Build Armbian
+        run: |
+          cd armbian/
+          ./compile.sh BOARD=mellowflygeminipi BRANCH=${{ matrix.branch }} RELEASE=jammy BUILD_MINIMAL=no BUILD_DESKTOP=no KERNEL_CONFIGURE=no
+
+      - name: Retrieve image name
+        id: image-name
+        run: |
+          WORKSPACE=$(echo ${{ github.workspace }})
+          cd $WORKSPACE/armbian/output/images/
+          ls -1 *.img | head -n1 > $GITHUB_OUTPUT
+          cat $GITHUB_OUTPUT
+
+      - name: Compressing Image
+        run: |
+          WORKSPACE=$(echo ${{ github.workspace }})
+          cd $WORKSPACE/armbian/output/images/
+          xz -efkvz "${{ steps.image-name.outputs.image-name }}" || true
+
+      - name: Calculating checksums
+        run: |
+          WORKSPACE=$(echo ${{ github.workspace }})
+          cd $WORKSPACE/armbian/output/images/
+          sha256sum "${{ steps.image-name.outputs.image-name }}" > "${{ steps.image-name.outputs.image-name }}.sha256"
+          sha256sum "${{ steps.image-name.outputs.image-name }}.xz" > "${{ steps.image-name.outputs.image-name }}.xz.sha256"
+
+      - name: Upload Image to Release
+        if: needs.release.outputs.id != ''
+        uses: xresloader/upload-to-github-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          release_id: ${{ needs.release.outputs.id }}
+          file: ./armbian/output/images/*.img.xz
+          draft: true
+
+      - name: Upload Checksum to Release
+        if: needs.release.outputs.id != ''
+        uses: xresloader/upload-to-github-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          release_id: ${{ needs.release.outputs.id }}
+          file: ./armbian/output/images/*.sha256
+          draft: true
+
+      - name: Upload Config to Release
+        if: needs.release.outputs.id != ''
+        uses: xresloader/upload-to-github-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          release_id: ${{ needs.release.outputs.id }}
+          file: ./armbian/output/images/*.txt
+          draft: true
+
+  finish:
+    name: Finish BuildTrain
+    needs: [release, build-armbian]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Publish Release
+        uses: StuYarrow/publish-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          id: ${{ needs.release.outputs.id }}
+
+  cleanup:
+    name: Cleanup
+    needs: [release, build-armbian]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete drafts
+        uses: hugo19941994/delete-draft-releases@v1.0.0
+        with:
+          threshold: 2d
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
