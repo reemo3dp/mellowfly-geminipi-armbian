@@ -86,21 +86,21 @@ jobs:
         run: |
           WORKSPACE=$(echo ${{ github.workspace }})
           cd $WORKSPACE/armbian/output/images/
-          ls -1 *.img | head -n1 > $GITHUB_OUTPUT
-          cat $GITHUB_OUTPUT
+          IMAGE_NAME=$(ls -1 *.img | head -n1)
+          echo "image_name=${IMAGE_NAME}" >> $GITHUB_OUTPUT
 
       - name: Compressing Image
         run: |
           WORKSPACE=$(echo ${{ github.workspace }})
           cd $WORKSPACE/armbian/output/images/
-          xz -efkvz "${{ steps.image-name.outputs.image-name }}" || true
+          xz -efkvz "${{ steps.image-name.outputs.image_name }}" || true
 
       - name: Calculating checksums
         run: |
           WORKSPACE=$(echo ${{ github.workspace }})
           cd $WORKSPACE/armbian/output/images/
-          sha256sum "${{ steps.image-name.outputs.image-name }}" > "${{ steps.image-name.outputs.image-name }}.sha256"
-          sha256sum "${{ steps.image-name.outputs.image-name }}.xz" > "${{ steps.image-name.outputs.image-name }}.xz.sha256"
+          sha256sum "${{ steps.image-name.outputs.image_name }}" > "${{ steps.image-name.outputs.image_name }}.sha256"
+          sha256sum "${{ steps.image-name.outputs.image_name }}.xz" > "${{ steps.image-name.outputs.image_name }}.xz.sha256"
 
       - name: Upload Image to Release
         if: needs.release.outputs.id != ''
@@ -133,7 +133,7 @@ jobs:
           draft: true
 
   finish:
-    name: Finish BuildTrain
+    name: Publish Release
     needs: [release, build-armbian]
     runs-on: ubuntu-latest
     steps:
