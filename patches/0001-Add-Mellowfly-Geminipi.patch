@@ -1,7 +1,7 @@
-From b870d7e2fdfcec4eb69898f87ac6941f49242b8e Mon Sep 17 00:00:00 2001
+From f14d307322f2b341009885592afdbf2079158a8c Mon Sep 17 00:00:00 2001
 From: User <user@example.com>
 Date: Thu, 23 Nov 2023 15:18:55 +0100
-Subject: [PATCH 1/4] Add Mellowfly-Geminipi
+Subject: [PATCH 1/5] Add Mellowfly-Geminipi
 
 ---
  config/boards/mellowflygeminipi.conf          |  13 +
@@ -691,5 +691,5 @@ index 000000000..ca6f6abf1
 +Created with Armbian build tools https://github.com/armbian/build
 +
 -- 
-2.43.0
+2.42.0
 
