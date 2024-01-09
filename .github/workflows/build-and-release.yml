@@ -12,8 +12,20 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       id: ${{ steps.release.outputs.id }}
+      version: ${{ steps.version.outputs.version }}
       tag_name: ${{ steps.time.outputs.time }}
     steps:
+      - name: Checkout this repository
+        uses: actions/checkout@v3
+        with:
+          path: mellowfly-geminipi-armbian
+
+      - name: Get this commit sha
+        id: mfgp-version
+        run: |
+          VERSION=$(cd mellowfly-geminipi-armbian; git rev-parse --short HEAD)
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+
       - name: Checkout armbian Repository
         uses: actions/checkout@v3
         with:
@@ -34,11 +46,17 @@ jobs:
         with:
           format: "YYYYMMDD-HHmm"
 
+      - name: Print version
+        id: version
+        run: |
+          VERSION="${{ steps.armbian-version.outputs.version }}-${{ steps.mfgp-version.outputs.version }}-${{ steps.time.outputs.time }}"
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+
       - name: Create empty release
         id: release
         uses: softprops/action-gh-release@v1
         with:
-          name: ${{ steps.armbian-version.outputs.version }}-${{ steps.time.outputs.time }}
+          name: ${{ steps.version.outputs.version }}
           tag_name: ${{ steps.time.outputs.time }}
           token: ${{ secrets.GITHUB_TOKEN }}
           draft: true
@@ -79,7 +97,8 @@ jobs:
       - name: Build Armbian
         run: |
           cd armbian/
-          ./compile.sh BOARD=mellowflygeminipi BRANCH=${{ matrix.branch }} RELEASE=jammy BUILD_MINIMAL=no BUILD_DESKTOP=no KERNEL_CONFIGURE=no
+          echo "${{ needs.release.outputs.version }}" | tee VERSION
+          ./compile.sh BOARD=mellowflygeminipi BRANCH=${{ matrix.branch }} RELEASE=jammy BUILD_MINIMAL=no BUILD_DESKTOP=no KERNEL_CONFIGURE=no INSTALL_HEADERS=yes
 
       - name: Retrieve image name
         id: image-name
