@@ -32,7 +32,7 @@ $ ./compile.sh BOARD=mellowflygeminipi BRANCH=legacy RELEASE=jammy BUILD_MINIMAL
 | Kernel    | OS      | Status                     |
 | --------- | ------- | -------------------------- |
 | `current` | `jammy` | Everything works, M2WE WiFi fails to initialize but can be reinitialized later  |
-| Everything works, M2WE WiFi fails to initialize but can be reinitialized later |
+| `edge` | `jammy` | Everything works, M2WE WiFi fails to initialize but can be reinitialized later |
 
 # M2WE
 
