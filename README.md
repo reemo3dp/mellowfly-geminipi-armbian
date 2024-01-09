@@ -27,15 +27,19 @@ $ git am ../patches/*.patch
 $ ./compile.sh BOARD=mellowflygeminipi BRANCH=legacy RELEASE=jammy BUILD_MINIMAL=no BUILD_DESKTOP=no KERNEL_CONFIGURE=no
 ```
 
-## Progress
-
-M2WE and SPI have not been tested at all. In order to make the USB-OTG port work on `current` and `edge`, comment out `g_serial` in `/etc/modules` and potentially change `dr_mode = "host";` in the `dts`.
+## Status
 
 | Kernel    | OS      | Status                     |
 | --------- | ------- | -------------------------- |
-| `legacy`  | `jammy` | Works                      |
-| `current` | `jammy` | ~USB-OTG port does not work~ |
-| `edge`    | `jammy` | ~USB-OTG port does not work~ |
+| `current` | `jammy` | Everything works, M2WE WiFi fails to initialize but can be reinitialized later  |
+| Everything works, M2WE WiFi fails to initialize but can be reinitialized later |
+
+# M2WE
+
+Use `nand-sata-install` to copy the system to the eMMC. Don't reboot, but follow 
+https://linux-sunxi.org/Bootable_eMMC#Installation_from_Linux to make the boot partitions bootable (eMMC should be `mmcblk2`). `u-boot-sunxi-with-spl.bin` should be somewhere in `/usr`. 
+
+Power off, remove sdcard, boot again. Mainline kernel comes with a kernel for the wifi chipset (`rtw88_8821cs`) that can fail to initialize on boot. if that happens, blacklist the module and modprobe it later during boot. `options rtw88_core disable_lps_deep=y` might also help.
 
 ## References
 
