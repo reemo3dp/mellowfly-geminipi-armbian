@@ -41,7 +41,7 @@ $ ./compile.sh BOARD=mellowflygeminipi BRANCH=legacy RELEASE=jammy BUILD_MINIMAL
 # M2WE
 
 Use `nand-sata-install` to copy the system to the eMMC. Don't reboot, but follow 
-https://linux-sunxi.org/Bootable_eMMC#Installation_from_Linux to make the boot partitions bootable (eMMC should be `mmcblk2`). `u-boot-sunxi-with-spl.bin` should be somewhere in `/usr`. 
+https://linux-sunxi.org/Bootable_eMMC#Installation_from_Linux to make the boot partitions bootable (eMMC should be `mmcblk2`). `u-boot-sunxi-with-spl.bin` should be in `/usr/lib/linux-u-boot-current-mellowflygeminipi/u-boot-sunxi-with-spl.bin`. 
 
 Power off, remove sdcard, boot again. Mainline kernel comes with a kernel for the wifi chipset (`rtw88_8821cs`) that can fail to initialize on boot. if that happens, blacklist the module and modprobe it later during boot. `options rtw88_core disable_lps_deep=y` might also help.
 
