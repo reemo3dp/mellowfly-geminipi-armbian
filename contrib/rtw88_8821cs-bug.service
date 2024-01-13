@@ -1,0 +1,14 @@
+[Unit]
+Description=Load Kernel Module rtw88_8821cs
+DefaultDependencies=no
+After=network.target
+Documentation=man:modprobe(8)
+ConditionCapability=CAP_SYS_MODULE
+StartLimitIntervalSec=0
+
+[Service]
+Type=oneshot
+ExecStart=/opt/rtw88_8821cs-bug.sh
+
+[Install]
+WantedBy=multi-user.target
