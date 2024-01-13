@@ -4,6 +4,10 @@ The goal of this project is to provide patches that re-create a stock armbian im
 
 The patch is almost entirely based off the [`flypi`](https://github.com/mellow-3d/build/tree/flypi) branch on Mellow-3D's fork of Armbian, with some work to map Pins to the board schematic.
 
+## No Support Given
+
+🛑 Please understand that you're running these images at your own risk. There is no support and issues asking for support will be closed without comment.
+
 ## Disclaimer from GPL3
 
 > THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY
