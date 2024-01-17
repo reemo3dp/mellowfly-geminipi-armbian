@@ -25,6 +25,8 @@ Head to the [latest release](https://github.com/reemo3dp/mellowfly-geminipi-armb
 
 Unpack the `xz`-archive and etch the image to an SD card using your favorite tool (e.g. balenaEtcher).
 
+Once the system is running, use `armbian-config` to freeze the kernel and u-boot packages to prevent them from being updated. The kernel and u-boot packages are patched to work with the board, and updating them will break the system. **HELP WANTED**: If you know a good way of renaming the armbian packages to prevent them from being updated, please open an issue or PR.
+
 ### M2WE
 
 Use `nand-sata-install` to copy the system to the eMMC. 
