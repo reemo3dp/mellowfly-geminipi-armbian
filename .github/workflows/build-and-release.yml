@@ -57,6 +57,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           name: ${{ steps.version.outputs.version }}
+          generate_release_notes: true
           tag_name: ${{ steps.time.outputs.time }}
           token: ${{ secrets.GITHUB_TOKEN }}
           draft: true
