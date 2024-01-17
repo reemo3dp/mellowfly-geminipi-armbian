@@ -151,6 +151,16 @@ jobs:
           file: ./armbian/output/images/*.txt
           draft: true
 
+      - name: Upload Debian Packages to Release
+        if: needs.release.outputs.id != ''
+        uses: xresloader/upload-to-github-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          release_id: ${{ needs.release.outputs.id }}
+          file: ./armbian/output/debs/**/*.deb
+          draft: true
+
   finish:
     name: Publish Release
     needs: [release, build-armbian]
