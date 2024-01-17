@@ -152,6 +152,13 @@ jobs:
           file: ./armbian/output/images/*.txt
           draft: true
 
+      - name: Create Debian Package Archive
+        if: needs.release.outputs.id != ''
+        run: |
+          WORKSPACE=$(echo ${{ github.workspace }})
+          cd $WORKSPACE/armbian/output
+          tar vcfJ "kernel_packages_${{ needs.release.outputs.version }}.tar.xz" debs/**/*.deb
+          
       - name: Upload Debian Packages to Release
         if: needs.release.outputs.id != ''
         uses: xresloader/upload-to-github-release@v1
@@ -159,7 +166,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           release_id: ${{ needs.release.outputs.id }}
-          file: ./armbian/output/debs/**/*.deb
+          file: ./armbian/output/kernel_packages_${{ needs.release.outputs.version }}.tar.xz
           draft: true
 
   finish:
