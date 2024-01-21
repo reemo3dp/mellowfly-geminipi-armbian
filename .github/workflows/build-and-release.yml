@@ -180,6 +180,18 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           id: ${{ needs.release.outputs.id }}
+      - name: Github Releases To Discord
+        uses: reemo3dp/github-releases-to-discord@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          release_id: ${{ github.event.inputs.release_id }}
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          color: "2105893"
+          username: "Release Changelog"
+          avatar_url: "https://cdn.discordapp.com/avatars/487431320314576937/bd64361e4ba6313d561d54e78c9e7171.png"
+          footer_title: "Changelog"
+          footer_icon_url: "https://cdn.discordapp.com/avatars/487431320314576937/bd64361e4ba6313d561d54e78c9e7171.png"
+          footer_timestamp: true
 
   cleanup:
     name: Cleanup
