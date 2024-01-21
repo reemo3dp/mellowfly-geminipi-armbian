@@ -1,6 +1,10 @@
 on:
-  release:
-    types: [published, released]
+  workflow_dispatch:
+    inputs:
+      release_id:
+        description: 'Release ID'
+        required: true
+        type: string
 
 jobs:
   github-releases-to-discord:
@@ -9,8 +13,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Github Releases To Discord
-        uses: SethCohen/github-releases-to-discord@v1.13.1
+        uses: reemo3dp/github-releases-to-discord@master
         with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          release_id: ${{ github.event.inputs.release_id }}
           webhook_url: ${{ secrets.DISCORD_WEBHOOK_URL }}
           color: "2105893"
           username: "Release Changelog"
