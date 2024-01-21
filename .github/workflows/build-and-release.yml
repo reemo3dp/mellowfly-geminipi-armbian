@@ -166,7 +166,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           release_id: ${{ needs.release.outputs.id }}
-          file: ./armbian/output/kernel_packages_${{ matrix.branch }}_${{ needs.release.outputs.version }}.tar.xz
+          file: ./armbian/output/debs/kernel_packages_${{ matrix.branch }}_${{ needs.release.outputs.version }}.tar.xz
           draft: true
 
   finish:
