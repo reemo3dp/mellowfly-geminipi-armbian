@@ -99,7 +99,7 @@ jobs:
         run: |
           cd armbian/
           echo "${{ needs.release.outputs.version }}" | tee VERSION
-          ./compile.sh BOARD=mellowflygeminipi BRANCH=${{ matrix.branch }} RELEASE=jammy BUILD_MINIMAL=no BUILD_DESKTOP=no KERNEL_CONFIGURE=no INSTALL_HEADERS=yes
+          ./compile.sh BOARD=mellowflygeminipi BRANCH=${{ matrix.branch }} RELEASE=jammy BUILD_MINIMAL=no BUILD_DESKTOP=no KERNEL_CONFIGURE=no INSTALL_HEADERS=yes BOOTFS_TYPE=fat
 
       - name: Retrieve image name
         id: image-name
