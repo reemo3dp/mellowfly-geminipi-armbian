@@ -1,0 +1,73 @@
+# Taken from https://github.com/mainsail-crew/armbian-builds/blob/d39a0ebc2d53446c32d1d5f936df2528ebd66de1/.github/workflows/BuildTrain.yml
+name: Build branches
+on:
+  push:
+    branches-ignore:
+      - "main"
+  pull_request:
+
+jobs:
+  build-armbian:
+    name: Armbian
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        branch: [current, edge]
+    steps:
+      - name: Get more space
+        uses: easimon/maximize-build-space@master
+        with:
+          root-reserve-mb: 30720
+          swap-size-mb: 1024
+          remove-dotnet: "true"
+          remove-android: "true"
+      - name: Checkout this repository
+        uses: actions/checkout@v3
+        with:
+          path: mellowfly-geminipi-armbian
+      - name: Checkout armbian Repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+          repository: armbian/build
+          ref: main
+          path: armbian
+
+      - name: Apply patches
+        run: |
+          cd armbian/
+          git apply ../mellowfly-geminipi-armbian/patches/*.patch
+
+      - name: Build Armbian
+        run: |
+          cd armbian/
+          ./compile.sh BOARD=mellowflygeminipi BRANCH=${{ matrix.branch }} RELEASE=jammy BUILD_MINIMAL=no BUILD_DESKTOP=no KERNEL_CONFIGURE=no INSTALL_HEADERS=yes BOOTFS_TYPE=fat
+
+      - name: Retrieve image name
+        id: image-name
+        run: |
+          WORKSPACE=$(echo ${{ github.workspace }})
+          cd $WORKSPACE/armbian/output/images/
+          IMAGE_NAME=$(ls -1 *.img | head -n1)
+          echo "image_name=${IMAGE_NAME}" >> $GITHUB_OUTPUT
+
+      - name: Compressing Image
+        run: |
+          WORKSPACE=$(echo ${{ github.workspace }})
+          cd $WORKSPACE/armbian/output/images/
+          xz -efkvz "${{ steps.image-name.outputs.image_name }}" || true
+
+      - name: Calculating checksums
+        run: |
+          WORKSPACE=$(echo ${{ github.workspace }})
+          cd $WORKSPACE/armbian/output/images/
+          sha256sum "${{ steps.image-name.outputs.image_name }}" > "${{ steps.image-name.outputs.image_name }}.sha256"
+          sha256sum "${{ steps.image-name.outputs.image_name }}.xz" > "${{ steps.image-name.outputs.image_name }}.xz.sha256"
+
+      - name: Upload to artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: "{{ matrix.branch }}"
+          path: |
+            ./output/*

@@ -1,5 +1,5 @@
 # Taken from https://github.com/mainsail-crew/armbian-builds/blob/d39a0ebc2d53446c32d1d5f936df2528ebd66de1/.github/workflows/BuildTrain.yml
-name: Build and release
+name: Build and release mainline
 on:
   workflow_dispatch:
   # on every monday at 3:30
