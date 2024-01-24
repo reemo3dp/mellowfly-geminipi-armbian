@@ -1,7 +1,7 @@
-From f7f9185d3662d353ce05199000e3ef71a72ff5db Mon Sep 17 00:00:00 2001
+From 63a2032c7f4146d0fa3fab98fca8b9eaf0a7e976 Mon Sep 17 00:00:00 2001
 From: User <user@example.com>
 Date: Sun, 7 Jan 2024 12:21:09 +0100
-Subject: [PATCH 5/5] Add eMMC patch
+Subject: [PATCH 5/6] Add eMMC patch
 
 ---
  .../u-boot-sunxi/0003-Enable-emmc-boot.patch  | 24 +++++++++++++++++++
@@ -71,5 +71,5 @@ index 000000000..7c04eac79
 +Created with Armbian build tools https://github.com/armbian/build
 +
 -- 
-2.42.0
+2.43.0
 

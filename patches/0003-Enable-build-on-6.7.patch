@@ -1,7 +1,7 @@
-From 652bfa80ae1673fb866a4a46dcff60ce29f02376 Mon Sep 17 00:00:00 2001
+From e7630805356c062cefa34fa1f9ad0d784f7c9296 Mon Sep 17 00:00:00 2001
 From: User <user@example.com>
 Date: Sat, 6 Jan 2024 21:03:06 +0100
-Subject: [PATCH 3/5] Enable build on 6.7
+Subject: [PATCH 3/6] Enable build on 6.7
 
 ---
  .../0001-Add-mellowfly-geminipi.patch}        |  0
@@ -145,5 +145,5 @@ index 000000000..e625d8f95
 +Created with Armbian build tools https://github.com/armbian/build
 +
 -- 
-2.42.0
+2.43.0
 

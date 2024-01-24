@@ -1,7 +1,7 @@
-From 6d156375ab37dc638cfa1b1396d78618ffc20a53 Mon Sep 17 00:00:00 2001
+From 6b52d81ceddb1df10fab18d41be1b13b2a62aa16 Mon Sep 17 00:00:00 2001
 From: User <user@example.com>
 Date: Wed, 13 Dec 2023 20:09:27 +0100
-Subject: [PATCH 2/5] Make it work on edge/current
+Subject: [PATCH 2/6] Make it work on edge/current
 
 ---
  config/boards/mellowflygeminipi.conf          |   2 +-
@@ -359,5 +359,5 @@ index ca6f6abf1..bc807a177 100644
  +};
  +
 -- 
-2.42.0
+2.43.0
 

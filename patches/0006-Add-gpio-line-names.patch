@@ -1,0 +1,287 @@
+From cba4c262fff8d2d9b5979bc42d3c2725641d316b Mon Sep 17 00:00:00 2001
+From: User <user@example.com>
+Date: Wed, 24 Jan 2024 11:18:45 +0100
+Subject: [PATCH 6/6] Add gpio line names
+
+---
+ .../sunxi-6.6/0005-Add-gpio-line-names.patch  | 84 +++++++++++++++++++
+ .../sunxi-6.7/0005-Add-gpio-line-names.patch  | 84 +++++++++++++++++++
+ .../0005-Add-gpio-line-names.patch            | 84 +++++++++++++++++++
+ 3 files changed, 252 insertions(+)
+ create mode 100644 userpatches/kernel/archive/sunxi-6.6/0005-Add-gpio-line-names.patch
+ create mode 100644 userpatches/kernel/archive/sunxi-6.7/0005-Add-gpio-line-names.patch
+ create mode 100644 userpatches/u-boot/u-boot-sunxi/0005-Add-gpio-line-names.patch
+
+diff --git a/userpatches/kernel/archive/sunxi-6.6/0005-Add-gpio-line-names.patch b/userpatches/kernel/archive/sunxi-6.6/0005-Add-gpio-line-names.patch
+new file mode 100644
+index 000000000..f5f462b18
+--- /dev/null
++++ b/userpatches/kernel/archive/sunxi-6.6/0005-Add-gpio-line-names.patch
+@@ -0,0 +1,84 @@
++From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
++From: John Doe <john.doe@somewhere.on.planet>
++Date: Wed, 24 Jan 2024 10:16:55 +0000
++Subject: Patching kernel sunxi64 files
++ arch/arm64/boot/dts/allwinner/sun50i-h5-mellowfly-geminipi.dts
++
++Signed-off-by: John Doe <john.doe@somewhere.on.planet>
++---
++ arch/arm64/boot/dts/allwinner/sun50i-h5-mellowfly-geminipi.dts | 45 ++++++++++
++ 1 file changed, 45 insertions(+)
++
++diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-mellowfly-geminipi.dts b/arch/arm64/boot/dts/allwinner/sun50i-h5-mellowfly-geminipi.dts
++index 98450667d3e1..3a7659f9b30f 100644
++--- a/arch/arm64/boot/dts/allwinner/sun50i-h5-mellowfly-geminipi.dts
+++++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-mellowfly-geminipi.dts
++@@ -189,20 +189,65 @@ &mmc2 {
++ 	non-removable;
++ 	status = "okay";
++ };
++ 
++ &pio {
+++	gpio-line-names = 
+++	    "PA0_uart2_tx", "PA1_uart2_rx", "PA2_uart2_rts", "PA3_uart2_cts", "PA4_uart0_tx", "PA5_uart0_rx", "PA6", "PA7",
+++	    "PA8", "PA9", "PA10_status_led", "PA11_i2c0_scl", "PA12_i2c0_sda", "PA13_uart3_tx", "PA14_uart3_rx", "PA15_uart3_rts",
+++	    "PA16_uart3_cts", "PA17", "PA18_i2c1_scl", "PA19_i2c1_sda", "PA20", "PA21", "", "",
+++	    "", "", "", "", "", "", "", "",
+++	
+++	    "", "", "", "", "", "", "", "",
+++	    "", "", "", "", "", "", "", "",
+++	    "", "", "", "", "", "", "", "",
+++	    "", "", "", "", "", "", "", "",
+++	
+++	    "PC0_spi0_mosi", "PC1_spi0_miso", "PC2_spi0_clk", "PC3_spi0_cs", "PC4", "PC5", "PC6", "PC7",
+++	    "PC8", "PC9", "PC10", "PC11", "PC12", "PC13", "PC14", "PC15",
+++	    "PC16", "", "", "", "", "", "", "",
+++	    "", "", "", "", "", "", "", "",
+++	
+++	    "PD0", "PD1", "PD2", "PD3", "PD4", "PD5", "PD6", "PD7",
+++	    "PD8", "PD9", "PD10", "PD11", "PD12", "PD13", "PD14", "PD15",
+++	    "PD16", "PD17", "", "", "", "", "", "",
+++	    "", "", "", "", "", "", "", "",
+++	
+++	    "PE0_cam_pclk", "PE1_cam_mclk", "PE2_cam_hsync", "PE3_cam_vsync", "PE4_cam_d0", "PE5_cam_d1", "PE6_cam_d2", "PE7_cam_d3",
+++	    "PE8_cam_d4", "PE9_cam_d5", "PE10_cam_d6", "PE11_cam_d7", "PE12_i2c2_scl", "PE13_i2c2_sda", "PE14", "PE15",
+++	    "", "", "", "", "", "", "", "",
+++	    "", "", "", "", "", "", "", "",
+++	
+++	    "PF0_sdc0_d1", "PF1_sdc0_d0", "PF2_sdc0_clk", "PF3_sdc0_cmd", "PF4_sdc0_d3", "PF5_sdc0_d2", "PF6_sdc0_det", "",
+++	    "", "", "", "", "", "", "", "",
+++	    "", "", "", "", "", "", "", "",
+++	    "", "", "", "", "", "", "", "",
+++	
+++	    "PG0", "PG1", "PG2", "PG3", "PG4", "PG5", "PG6_uart1_tx", "PG7_uart1_rx",
+++	    "PG8_uart1_rts", "PG9_uart1_cts", "PG10", "PG11", "PG12_usb0_otgid", "PG13", "", "",
+++	    "", "", "", "", "", "", "", "",
+++	    "", "", "", "", "", "", "", "";  
+++
++     spi0_cs_pins: spi0_cs_pins {
++         pins = "PC3", "PA18";
++         function = "gpio_out";
++     };
++ 
++ 	spi1_cs_pins: spi1_cs_pins {
++ 		pins = "PA13", "PA19";
++ 		function = "gpio_out";
++ 	};
++ };
+++
+++&r_pio {
+++	gpio-line-names = 
+++	  "PL0", "PL1", "PL2_usb0_drvvbus", "PL3_k1", "PL4_recovery", "PL5", "PL6", "PL7",
+++	  "PL8_pwr_stb", "PL9_pwr_dram", "PL10_pwr_led", "PL11_ir_rx", "", "", "", "",
+++	  "", "", "", "", "", "", "", "",
+++	  "", "", "", "", "", "", "", "";
+++};
+++
++ &spi0  {
++ 	#address-cells = <1>;
++ 	#size-cells = <0>;
++ 	status = "okay";
++ 
++-- 
++Created with Armbian build tools https://github.com/armbian/build
++
+diff --git a/userpatches/kernel/archive/sunxi-6.7/0005-Add-gpio-line-names.patch b/userpatches/kernel/archive/sunxi-6.7/0005-Add-gpio-line-names.patch
+new file mode 100644
+index 000000000..0d713c0f0
+--- /dev/null
++++ b/userpatches/kernel/archive/sunxi-6.7/0005-Add-gpio-line-names.patch
+@@ -0,0 +1,84 @@
++From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
++From: John Doe <john.doe@somewhere.on.planet>
++Date: Wed, 24 Jan 2024 10:14:47 +0000
++Subject: Patching kernel sunxi64 files
++ arch/arm64/boot/dts/allwinner/sun50i-h5-mellowfly-geminipi.dts
++
++Signed-off-by: John Doe <john.doe@somewhere.on.planet>
++---
++ arch/arm64/boot/dts/allwinner/sun50i-h5-mellowfly-geminipi.dts | 45 ++++++++++
++ 1 file changed, 45 insertions(+)
++
++diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-mellowfly-geminipi.dts b/arch/arm64/boot/dts/allwinner/sun50i-h5-mellowfly-geminipi.dts
++index 98450667d3e1..3a7659f9b30f 100644
++--- a/arch/arm64/boot/dts/allwinner/sun50i-h5-mellowfly-geminipi.dts
+++++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-mellowfly-geminipi.dts
++@@ -189,20 +189,65 @@ &mmc2 {
++ 	non-removable;
++ 	status = "okay";
++ };
++ 
++ &pio {
+++	gpio-line-names = 
+++	    "PA0_uart2_tx", "PA1_uart2_rx", "PA2_uart2_rts", "PA3_uart2_cts", "PA4_uart0_tx", "PA5_uart0_rx", "PA6", "PA7",
+++	    "PA8", "PA9", "PA10_status_led", "PA11_i2c0_scl", "PA12_i2c0_sda", "PA13_uart3_tx", "PA14_uart3_rx", "PA15_uart3_rts",
+++	    "PA16_uart3_cts", "PA17", "PA18_i2c1_scl", "PA19_i2c1_sda", "PA20", "PA21", "", "",
+++	    "", "", "", "", "", "", "", "",
+++	
+++	    "", "", "", "", "", "", "", "",
+++	    "", "", "", "", "", "", "", "",
+++	    "", "", "", "", "", "", "", "",
+++	    "", "", "", "", "", "", "", "",
+++	
+++	    "PC0_spi0_mosi", "PC1_spi0_miso", "PC2_spi0_clk", "PC3_spi0_cs", "PC4", "PC5", "PC6", "PC7",
+++	    "PC8", "PC9", "PC10", "PC11", "PC12", "PC13", "PC14", "PC15",
+++	    "PC16", "", "", "", "", "", "", "",
+++	    "", "", "", "", "", "", "", "",
+++	
+++	    "PD0", "PD1", "PD2", "PD3", "PD4", "PD5", "PD6", "PD7",
+++	    "PD8", "PD9", "PD10", "PD11", "PD12", "PD13", "PD14", "PD15",
+++	    "PD16", "PD17", "", "", "", "", "", "",
+++	    "", "", "", "", "", "", "", "",
+++	
+++	    "PE0_cam_pclk", "PE1_cam_mclk", "PE2_cam_hsync", "PE3_cam_vsync", "PE4_cam_d0", "PE5_cam_d1", "PE6_cam_d2", "PE7_cam_d3",
+++	    "PE8_cam_d4", "PE9_cam_d5", "PE10_cam_d6", "PE11_cam_d7", "PE12_i2c2_scl", "PE13_i2c2_sda", "PE14", "PE15",
+++	    "", "", "", "", "", "", "", "",
+++	    "", "", "", "", "", "", "", "",
+++	
+++	    "PF0_sdc0_d1", "PF1_sdc0_d0", "PF2_sdc0_clk", "PF3_sdc0_cmd", "PF4_sdc0_d3", "PF5_sdc0_d2", "PF6_sdc0_det", "",
+++	    "", "", "", "", "", "", "", "",
+++	    "", "", "", "", "", "", "", "",
+++	    "", "", "", "", "", "", "", "",
+++	
+++	    "PG0", "PG1", "PG2", "PG3", "PG4", "PG5", "PG6_uart1_tx", "PG7_uart1_rx",
+++	    "PG8_uart1_rts", "PG9_uart1_cts", "PG10", "PG11", "PG12_usb0_otgid", "PG13", "", "",
+++	    "", "", "", "", "", "", "", "",
+++	    "", "", "", "", "", "", "", "";  
+++
++     spi0_cs_pins: spi0_cs_pins {
++         pins = "PC3", "PA18";
++         function = "gpio_out";
++     };
++ 
++ 	spi1_cs_pins: spi1_cs_pins {
++ 		pins = "PA13", "PA19";
++ 		function = "gpio_out";
++ 	};
++ };
+++
+++&r_pio {
+++	gpio-line-names = 
+++	  "PL0", "PL1", "PL2_usb0_drvvbus", "PL3_k1", "PL4_recovery", "PL5", "PL6", "PL7",
+++	  "PL8_pwr_stb", "PL9_pwr_dram", "PL10_pwr_led", "PL11_ir_rx", "", "", "", "",
+++	  "", "", "", "", "", "", "", "",
+++	  "", "", "", "", "", "", "", "";
+++};
+++
++ &spi0  {
++ 	#address-cells = <1>;
++ 	#size-cells = <0>;
++ 	status = "okay";
++ 
++-- 
++Created with Armbian build tools https://github.com/armbian/build
++
+diff --git a/userpatches/u-boot/u-boot-sunxi/0005-Add-gpio-line-names.patch b/userpatches/u-boot/u-boot-sunxi/0005-Add-gpio-line-names.patch
+new file mode 100644
+index 000000000..da14e8c7d
+--- /dev/null
++++ b/userpatches/u-boot/u-boot-sunxi/0005-Add-gpio-line-names.patch
+@@ -0,0 +1,84 @@
++From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
++From: John Doe <john.doe@somewhere.on.planet>
++Date: Wed, 24 Jan 2024 10:12:12 +0000
++Subject: Patching u-boot sunxi64 files
++ arch/arm/dts/sun50i-h5-mellowfly-geminipi.dts
++
++Signed-off-by: John Doe <john.doe@somewhere.on.planet>
++---
++ arch/arm/dts/sun50i-h5-mellowfly-geminipi.dts | 45 ++++++++++
++ 1 file changed, 45 insertions(+)
++
++diff --git a/arch/arm/dts/sun50i-h5-mellowfly-geminipi.dts b/arch/arm/dts/sun50i-h5-mellowfly-geminipi.dts
++index 98450667d3..3a7659f9b3 100644
++--- a/arch/arm/dts/sun50i-h5-mellowfly-geminipi.dts
+++++ b/arch/arm/dts/sun50i-h5-mellowfly-geminipi.dts
++@@ -189,20 +189,65 @@
++ 	non-removable;
++ 	status = "okay";
++ };
++ 
++ &pio {
+++	gpio-line-names = 
+++	    "PA0_uart2_tx", "PA1_uart2_rx", "PA2_uart2_rts", "PA3_uart2_cts", "PA4_uart0_tx", "PA5_uart0_rx", "PA6", "PA7",
+++	    "PA8", "PA9", "PA10_status_led", "PA11_i2c0_scl", "PA12_i2c0_sda", "PA13_uart3_tx", "PA14_uart3_rx", "PA15_uart3_rts",
+++	    "PA16_uart3_cts", "PA17", "PA18_i2c1_scl", "PA19_i2c1_sda", "PA20", "PA21", "", "",
+++	    "", "", "", "", "", "", "", "",
+++	
+++	    "", "", "", "", "", "", "", "",
+++	    "", "", "", "", "", "", "", "",
+++	    "", "", "", "", "", "", "", "",
+++	    "", "", "", "", "", "", "", "",
+++	
+++	    "PC0_spi0_mosi", "PC1_spi0_miso", "PC2_spi0_clk", "PC3_spi0_cs", "PC4", "PC5", "PC6", "PC7",
+++	    "PC8", "PC9", "PC10", "PC11", "PC12", "PC13", "PC14", "PC15",
+++	    "PC16", "", "", "", "", "", "", "",
+++	    "", "", "", "", "", "", "", "",
+++	
+++	    "PD0", "PD1", "PD2", "PD3", "PD4", "PD5", "PD6", "PD7",
+++	    "PD8", "PD9", "PD10", "PD11", "PD12", "PD13", "PD14", "PD15",
+++	    "PD16", "PD17", "", "", "", "", "", "",
+++	    "", "", "", "", "", "", "", "",
+++	
+++	    "PE0_cam_pclk", "PE1_cam_mclk", "PE2_cam_hsync", "PE3_cam_vsync", "PE4_cam_d0", "PE5_cam_d1", "PE6_cam_d2", "PE7_cam_d3",
+++	    "PE8_cam_d4", "PE9_cam_d5", "PE10_cam_d6", "PE11_cam_d7", "PE12_i2c2_scl", "PE13_i2c2_sda", "PE14", "PE15",
+++	    "", "", "", "", "", "", "", "",
+++	    "", "", "", "", "", "", "", "",
+++	
+++	    "PF0_sdc0_d1", "PF1_sdc0_d0", "PF2_sdc0_clk", "PF3_sdc0_cmd", "PF4_sdc0_d3", "PF5_sdc0_d2", "PF6_sdc0_det", "",
+++	    "", "", "", "", "", "", "", "",
+++	    "", "", "", "", "", "", "", "",
+++	    "", "", "", "", "", "", "", "",
+++	
+++	    "PG0", "PG1", "PG2", "PG3", "PG4", "PG5", "PG6_uart1_tx", "PG7_uart1_rx",
+++	    "PG8_uart1_rts", "PG9_uart1_cts", "PG10", "PG11", "PG12_usb0_otgid", "PG13", "", "",
+++	    "", "", "", "", "", "", "", "",
+++	    "", "", "", "", "", "", "", "";  
+++
++     spi0_cs_pins: spi0_cs_pins {
++         pins = "PC3", "PA18";
++         function = "gpio_out";
++     };
++ 
++ 	spi1_cs_pins: spi1_cs_pins {
++ 		pins = "PA13", "PA19";
++ 		function = "gpio_out";
++ 	};
++ };
+++
+++&r_pio {
+++	gpio-line-names = 
+++	  "PL0", "PL1", "PL2_usb0_drvvbus", "PL3_k1", "PL4_recovery", "PL5", "PL6", "PL7",
+++	  "PL8_pwr_stb", "PL9_pwr_dram", "PL10_pwr_led", "PL11_ir_rx", "", "", "", "",
+++	  "", "", "", "", "", "", "", "",
+++	  "", "", "", "", "", "", "", "";
+++};
+++
++ &spi0  {
++ 	#address-cells = <1>;
++ 	#size-cells = <0>;
++ 	status = "okay";
++ 
++-- 
++Created with Armbian build tools https://github.com/armbian/build
++
+-- 
+2.43.0
+
