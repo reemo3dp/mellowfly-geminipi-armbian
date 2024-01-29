@@ -1,7 +1,7 @@
-From 792a91f52ad1d07ecb7d908092075fa4c923a2f0 Mon Sep 17 00:00:00 2001
+From 2c6ce787aedc202b54cfeb4fd475eac952e3dc76 Mon Sep 17 00:00:00 2001
 From: User <user@example.com>
 Date: Wed, 24 Jan 2024 17:16:01 +0100
-Subject: [PATCH 7/7] Align DRAM CLK with RRF_stm32_SBC
+Subject: [PATCH 8/8] Align DRAM CLK with RRF_stm32_SBC
  (https://github.com/TeamGloomy/rrf_stm32_sbc/blob/ae1193e6662c0cca9c7da73356d803c881cba6c1/armbian/userpatches/u-boot/u-boot-sunxi/u-boot-configs-fly_gemini_defconfig.patch\#L12C2-L12C21)
 
 ---

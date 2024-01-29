@@ -1,7 +1,7 @@
-From 1b58df709a201e5a288489f6160040074b3192ac Mon Sep 17 00:00:00 2001
+From dfddb2f6ca40527f3cd0b7920a99937398950c85 Mon Sep 17 00:00:00 2001
 From: User <user@example.com>
 Date: Sun, 7 Jan 2024 00:27:11 +0100
-Subject: [PATCH 4/6] Support current and edge
+Subject: [PATCH 4/8] Support current and edge
 
 ---
  .../0001-Add-mellowfly-geminipi.patch}        | 33 +++++++++++++++----

@@ -1,7 +1,7 @@
-From 6e596959479590a2838a8624e6e3ecdf23adf342 Mon Sep 17 00:00:00 2001
+From 46364999b8d4673a97d89d392c1a170295836938 Mon Sep 17 00:00:00 2001
 From: User <user@example.com>
 Date: Mon, 29 Jan 2024 12:47:04 +0100
-Subject: [PATCH 7/7] Revert 12910e0 for the time being
+Subject: [PATCH 7/8] Revert 12910e0 for the time being
 
 ---
  lib/functions/general/git.sh | 6 +++---

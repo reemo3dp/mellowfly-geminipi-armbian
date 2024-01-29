@@ -1,7 +1,7 @@
-From 9eaff2b4ccb96d6fc910e695b9fc266c008f661d Mon Sep 17 00:00:00 2001
+From 844242ce5252da9430f1422e4e99e5a1bea27ad8 Mon Sep 17 00:00:00 2001
 From: User <user@example.com>
 Date: Thu, 23 Nov 2023 15:18:55 +0100
-Subject: [PATCH 1/6] Add Mellowfly-Geminipi
+Subject: [PATCH 1/8] Add Mellowfly-Geminipi
 
 ---
  config/boards/mellowflygeminipi.conf          |  13 +

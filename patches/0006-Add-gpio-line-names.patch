@@ -1,7 +1,7 @@
-From cba4c262fff8d2d9b5979bc42d3c2725641d316b Mon Sep 17 00:00:00 2001
+From 75baabd71c5a6d8ddca06a57f6dd5b0dda67485b Mon Sep 17 00:00:00 2001
 From: User <user@example.com>
 Date: Wed, 24 Jan 2024 11:18:45 +0100
-Subject: [PATCH 6/6] Add gpio line names
+Subject: [PATCH 6/8] Add gpio line names
 
 ---
  .../sunxi-6.6/0005-Add-gpio-line-names.patch  | 84 +++++++++++++++++++
