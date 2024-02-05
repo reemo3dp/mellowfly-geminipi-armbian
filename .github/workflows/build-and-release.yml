@@ -74,10 +74,13 @@ jobs:
       - name: Get more space
         uses: easimon/maximize-build-space@master
         with:
-          root-reserve-mb: 30720
+          root-reserve-mb: 25600
           swap-size-mb: 1024
           remove-dotnet: "true"
           remove-android: "true"
+          remove-codeql: "true"
+          remove-docker-images: "true"
+          remove-haskell: "true"
       - name: Checkout this repository
         uses: actions/checkout@v3
         with:
