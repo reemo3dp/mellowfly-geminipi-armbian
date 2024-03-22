@@ -28,11 +28,11 @@ jobs:
           remove-docker-images: "true"
           remove-haskell: "true"
       - name: Checkout this repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: mellowfly-geminipi-armbian
       - name: Checkout armbian Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 1
           repository: armbian/build
