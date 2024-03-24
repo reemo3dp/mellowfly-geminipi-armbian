@@ -184,7 +184,7 @@ jobs:
         with:
           id: ${{ needs.release.outputs.id }}
       - name: Start MainsailOS Build
-        uses: peter-evans/repository-dispatch@v2
+        uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ secrets.MAINSAIL_REPO_DISPATCH_TOKEN }}
           repository: reemo3dp/mellowfly-geminipi-mainsailos
