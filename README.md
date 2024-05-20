@@ -36,6 +36,14 @@ https://linux-sunxi.org/Bootable_eMMC#Installation_from_Linux to make the boot p
 
 Mainline kernel comes with a kernel for the wifi chipset (`rtw88_8821cs`) that can fail to initialize on boot. if that happens, blacklist the module and modprobe it later during boot. `options rtw88_core disable_lps_deep=y` might also help, or installing the scripts and systemd service in `./contrib/`.
 
+### Flashing the MCU
+
+The recommended way to flash the MCU with this image is either using `make flash FLASH_DEVICE=/dev/serial/by-id/...` (should work if the MCU is already running a recent enough version of klipper).
+
+Alternatively, you may jump `BT1` to `3.3V` and reset the MCU (the `RESET1` is on the bottom right of the board). This will put the MCU into HID flash mode. 
+
+See [my blog](https://reemo3dp.github.io/devices/Mellow-Fly-Gemini-V3/replacing_fly-flash/) for more instructions.
+
 ## Building yourself
 
 ```bash
