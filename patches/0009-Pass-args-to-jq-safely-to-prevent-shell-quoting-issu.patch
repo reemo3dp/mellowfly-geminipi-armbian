@@ -1,0 +1,25 @@
+From 212e9e1cb0deaac75514b56d420b2e980b91de88 Mon Sep 17 00:00:00 2001
+From: User <user@example.com>
+Date: Sun, 15 Dec 2024 17:57:32 +0100
+Subject: [PATCH 9/9] Pass args to jq safely to prevent shell-quoting issues
+
+---
+ lib/functions/general/apt-utils.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lib/functions/general/apt-utils.sh b/lib/functions/general/apt-utils.sh
+index c0e1bc715..a672af33f 100644
+--- a/lib/functions/general/apt-utils.sh
++++ b/lib/functions/general/apt-utils.sh
+@@ -51,7 +51,7 @@ function apt_find_upstream_package_version_and_download_url() {
+ 	esac
+ 	package_info_download_url_file="$(mktemp)"
+ 	curl --silent --show-error --max-time 10 $package_info_download_url -o $package_info_download_url_file
+-	found_package_filename=$(jq -r .[\"${package_download_release}\"].${ARCH} $package_info_download_url_file)
++	found_package_filename=$(jq --arg RELEASE "${package_download_release}" --arg ARCH "${ARCH}" -r '.[$RELEASE][$ARCH]' $package_info_download_url_file)
+ 
+ 	if [[ "${found_package_filename}" == "${sought_package_name}_"* ]]; then
+ 		display_alert "Found upstream base-files package filename" "${found_package_filename}" "info"
+-- 
+2.47.1
+
