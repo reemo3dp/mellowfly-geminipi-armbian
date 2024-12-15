@@ -31,12 +31,19 @@ jobs:
         uses: actions/checkout@v4
         with:
           path: mellowfly-geminipi-armbian
+
+      - name: Get armbian version
+        id: armbian-version
+        run: |
+          VERSION=$(cat ./mellowfly-geminipi-armbian/armbian-version.txt)
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+
       - name: Checkout armbian Repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
           repository: armbian/build
-          ref: main
+          ref: ${{ steps.armbian-version.outputs.version }}
           path: armbian
 
       - name: Apply patches

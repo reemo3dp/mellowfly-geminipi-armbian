@@ -11,7 +11,7 @@
       "fileMatch": ["armbian-version.txt"],
       "depNameTemplate": "armbian/build",
       "matchStrings": ["^(?<currentValue>.+?)$"],
-      "versioningTemplate": "semver-coerced",
+      "versioningTemplate": "regex:^v(?<major>.+)\\.(?<minor>.+)\\.(?<patch>.+)(-trunk\\.(?<build>.+>))?$",
       "datasourceTemplate": "github-releases"
     }
   ]
