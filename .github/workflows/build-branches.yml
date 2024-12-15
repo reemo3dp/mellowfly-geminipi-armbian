@@ -38,6 +38,12 @@ jobs:
           VERSION=$(cat ./mellowfly-geminipi-armbian/armbian-version.txt)
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
 
+      - name: Get ubuntu version
+        id: ubuntu-version
+        run: |
+          VERSION=$(cat ./mellowfly-geminipi-armbian/ubuntu-version.txt)
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+
       - name: Checkout armbian Repository
         uses: actions/checkout@v4
         with:
@@ -54,7 +60,15 @@ jobs:
       - name: Build Armbian
         run: |
           cd armbian/
-          ./compile.sh BOARD=mellowflygeminipi BRANCH=${{ matrix.branch }} RELEASE=jammy BUILD_MINIMAL=no BUILD_DESKTOP=no KERNEL_CONFIGURE=no INSTALL_HEADERS=yes BOOTFS_TYPE=fat
+          ./compile.sh \
+            BOARD=mellowflygeminipi \
+            BRANCH=${{ matrix.branch }} \
+            RELEASE=${{ steps.ubuntu-version.outputs.version }} \
+            BUILD_MINIMAL=no \
+            BUILD_DESKTOP=no \
+            KERNEL_CONFIGURE=no \
+            INSTALL_HEADERS=yes \
+            BOOTFS_TYPE=fat
 
       - name: Retrieve image name
         id: image-name

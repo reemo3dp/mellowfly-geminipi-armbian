@@ -13,6 +13,13 @@
       "matchStrings": ["^(?<currentValue>.+?)$"],
       "versioningTemplate": "regex:^v(?<major>.+)\\.(?<minor>.+)\\.(?<patch>.+)(-trunk\\.(?<build>.+>))?$",
       "datasourceTemplate": "github-releases"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": ["ubuntu-version.txt"],
+      "depNameTemplate": "ubuntu",
+      "matchStrings": ["^(?<currentValue>.+?)$"],
+      "datasourceTemplate": "ubuntu"
     }
   ]
 }
