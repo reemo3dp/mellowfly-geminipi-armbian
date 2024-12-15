@@ -2,8 +2,6 @@
 name: Build branches
 on:
   push:
-    branches-ignore:
-      - "main"
   pull_request:
   workflow_dispatch:
 
