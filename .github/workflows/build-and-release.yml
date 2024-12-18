@@ -170,7 +170,7 @@ jobs:
         run: |
           WORKSPACE=$(echo ${{ github.workspace }})
           cd $WORKSPACE/armbian/output/debs/
-          tar vcfJ "kernel_packages_${{ matrix.branch }}_${{ needs.release.outputs.version }}.tar.xz" *.deb **/*.deb
+          tar vcfJ "kernel_packages_${{ matrix.branch }}_${{ needs.release.outputs.version }}.tar.xz" *.deb
           
       - name: Upload Debian Packages to Release
         if: needs.release.outputs.id != ''
