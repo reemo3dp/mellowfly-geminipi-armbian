@@ -26,7 +26,7 @@ jobs:
           remove-docker-images: "true"
           remove-haskell: "true"
       - name: Checkout this repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           path: mellowfly-geminipi-armbian
 
@@ -43,7 +43,7 @@ jobs:
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
 
       - name: Checkout armbian Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 1
           repository: armbian/build
