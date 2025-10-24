@@ -90,7 +90,7 @@ jobs:
           sha256sum "${{ steps.image-name.outputs.image_name }}.xz" > "${{ steps.image-name.outputs.image_name }}.xz.sha256"
 
       - name: Upload to artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: "${{ matrix.branch }}"
           path: ./armbian/output/
